@@ -52,7 +52,7 @@ test('test', async ({ page }) => {
   await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-skip.empty.days-n14"] > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-button-std-file.save_and_close"]').click(); 
 
- // Jetzt auf das Prognose Kätschen markieren und dann Generate Orders klicken.
+  // Jetzt auf das Prognose Kätschen markieren und dann Generate Orders klicken.
   await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxBorderOutside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-toolbar-left-REGULAR-overflowButton > .SvgIconDiv > .icon').click();
   await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-button-form-cprrp1220m000').click();
