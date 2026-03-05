@@ -1,0 +1,24 @@
+{
+  "name": "playwright-testen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "codegen": "playwright codegen",
+    "codegen:warehouse": "NO_PROXY=10.218.90.14,localhost,127.0.0.1 playwright codegen --channel=chrome --target=playwright-test --output=tests/flows/warehouse.codegen.spec.ts",
+    "codegen:warehouse:url": "NO_PROXY=10.218.90.14,localhost,127.0.0.1 playwright codegen http://10.218.90.14:8312/webui/servlet/standalone --channel=chrome --target=playwright-test --output=tests/flows/warehouse.codegen.spec.ts",
+    "test:warehouse": "playwright test tests/flows/warehouse-validation.spec.ts --project=chromium --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.0",
+    "dotenv": "^17.3.1"
+  }
+}
