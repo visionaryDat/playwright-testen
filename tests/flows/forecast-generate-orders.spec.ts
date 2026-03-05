@@ -161,11 +161,21 @@ test('Prognose Erstellung', async ({ page }) => {
 
 
 
-
-  await test.step(" STEP 9 Klicke auf Update Pegging Relations Kätschen (Update Resource Masterplan ist schon angeklickt) und dann auf Generate Button klicken dann auf Yes klicken dann im nächsten Screen in das Devicedc Feld d eingeben und dann auf Tab drücken und dann auf Continue Button klicken. Es erscheint ein PDF Datei", async () => {
+  await test.step(" STEP 9 Klicke auf Update Pegging Relations Kätschen (Update Resource Masterplan ist schon angeklickt) und dann auf Generate Button klicken dann auf Yes klicken dann im nächsten Screen in das Deviced Feld d eingeben und dann auf Tab drücken und dann auf Continue Button klicken. Es erscheint ein PDF Datei", async () => {
     await UpdatePeggingRelationsCheckbox.click({ force: true });
     await GenerateButton.click();
     await YesButton.click();
+
+    await expect(DevicedField).toBeVisible();
+    
+
+  });
+
+
+
+
+  await test.step(" STEP 10 Im nächsten Screen in das Devicedc Feld d eingeben und dann auf Tab drücken und dann auf Continue Button klicken. Es erscheint ein PDF Datei", async () => {
+    await DevicedField.click();
     await DevicedField.fill('d');
     await DevicedField.press('Tab');
     await ContinueButton.click();

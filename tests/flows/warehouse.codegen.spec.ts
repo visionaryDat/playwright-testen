@@ -51,16 +51,22 @@ test('test', async ({ page }) => {
   await page.locator('iframe').nth(1).contentFrame().getByText('Plan Periods').first().click({ timeout: 3000 }).catch(() => {});
   await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-skip.empty.days-n14"] > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-button-std-file.save_and_close"]').click(); 
+  
 
   // Jetzt auf das Prognose Kätschen markieren und dann Generate Orders klicken.
   await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxBorderOutside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-toolbar-left-REGULAR-overflowButton > .SvgIconDiv > .icon').click();
   await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-button-form-cprrp1220m000').click();
 
-  // Klicke auf Update Pegging Relations Kätschen (Update Resource Masterplan ist schon angeklickt) und dann auf Generate Button klicken dann auf Yes klicken dann im nächsten Screen in das Devicedc Feld d eingeben und dann auf Tab drücken und dann auf Continue Button klicken. Es erscheint ein PDF Datei
+
+  // Klicke auf Update Pegging Relations Kätschen (Update Resource Masterplan ist schon angeklickt) und dann auf Generate Button klicken dann auf Yes klicken
   await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp1220m000-f.generate.peg-n17"] > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp1220m000-button-form-exec.cont.process"]').click();
   await page.locator('iframe').nth(1).contentFrame().locator('#dlg-cprrp1220m000-input-button-n0').click();
+
+  
+  // Im nächsten Screen in das Devicedc Feld d eingeben und dann auf Tab drücken und dann auf Continue Button klicken. Es erscheint ein PDF Datei
+  await page.locator('iframe').nth(1).contentFrame().locator('#ttstpsplopen-devc-n1-lookup-widget').click();
   await page.locator('iframe').nth(1).contentFrame().locator('#ttstpsplopen-devc-n1-lookup-widget').fill('d');
   await page.locator('iframe').nth(1).contentFrame().locator('#ttstpsplopen-devc-n1-lookup-widget').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().locator('[id="ttstpsplopen-button-form-exec.cont.process"]').click();
