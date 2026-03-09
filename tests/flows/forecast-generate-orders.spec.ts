@@ -17,6 +17,10 @@ test('Prognose Erstellung', async ({ page }) => {
   const PlanItemField = frame.getByRole('cell', { name: 'C10', exact: true }).getByRole('textbox');
   const PlanItem2Field = frame.getByRole('textbox').nth(3);
   const M2100Field = frame.getByRole('cell', { name: 'M2100', exact: true }).getByRole('textbox');
+  const ActualPlanLabel = frame.getByText('Actual Plan', { exact: true });
+  const DescriptionLabel = frame.getByText('In BOM').first();
+  const ForecastTimeFenceLabel = frame.getByText(/\d{1,2}[./]\d{1,2}[./]\d{4}/).first();
+  
   const AddButton = frame.locator('[id="cpdsp2100m000-button-std-file.new"] > .SvgIconDiv > .icon');
   const QuantityField = frame.locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt-n6-n0-widget-widget"]');
   const TimeField = frame.locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt.time-n6-n0-widget-widget"]');
@@ -91,7 +95,14 @@ test('Prognose Erstellung', async ({ page }) => {
     await PlanItem2Field.press('Tab');
     await M2100Field.press('Tab');
 
-    await expect(AddButton).toBeVisible();
+    await expect(ScenarioField).toHaveValue('ACT'); // überprüft, ob im Scenario Feld automatisch "ACT" eingetragen wurde
+    await expect(ActualPlanLabel).toContainText('Actual Plan');  // überprüft, ob das Label "Actual Plan" sichtbar ist
+    await expect(PlanItemField).toHaveValue('C10'); // überprüft, ob im Plan Item Feld automatisch "C10" eingetragen wurde
+    await expect(M2100Field).toHaveValue('M2100'); // überprüft, ob im M2100 Feld automatisch "M2100" eingetragen wurde
+
+    await expect(DescriptionLabel).toContainText('In BOM'); // überprüft, ob das Label "In BOM" sichtbar ist
+    await expect(ForecastTimeFenceLabel).toHaveText(/\d{1,2}[./]\d{1,2}[./]\d{4}/); // überprüft, ob das Forecast Time Fence Label ein Datum enthält
+    await expect(AddButton).toBeVisible(); // überprüft, ob der Hinzufügen-Button sichtbar ist
   });
 
 
@@ -105,7 +116,7 @@ test('Prognose Erstellung', async ({ page }) => {
     await SerialNumberField.press('Tab');
     await SaveButton.click();
 
-    await expect(ItemOrderPlanLabel).toBeVisible();
+    await expect(ItemOrderPlanLabel).toBeVisible(); // überprüft, ob das Item Order Plan Label sichtbar ist
   });
 
 
@@ -119,7 +130,7 @@ test('Prognose Erstellung', async ({ page }) => {
     await ItemC10.click({ force: true });
     await SaveAndCloseButton.click();
 
-    await expect(PlanItem2Field2).toBeVisible();
+    await expect(PlanItem2Field2).toBeVisible(); // überprüft, ob das Plan Item 2 Feld sichtbar ist
   });
 
 
