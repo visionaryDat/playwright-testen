@@ -22,8 +22,9 @@ test('Prognose Erstellung', async ({ page }) => {
   const ForecastTimeFenceLabel = frame.getByText(/\d{1,2}[./]\d{1,2}[./]\d{4}/).first();
   
   const AddButton = frame.locator('[id="cpdsp2100m000-button-std-file.new"] > .SvgIconDiv > .icon');
-  const QuantityField = frame.locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt-n6-n0-widget-widget"]');
+  const DemandDateField = frame.locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt-n6-n0-widget-widget"]');
   const TimeField = frame.locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt.time-n6-n0-widget-widget"]');
+  const SequenceNumber10 = frame.locator('[id^="cpdsp2100m000-grid-n1-cpdsp200.sern-n7-"][id$="-widget"]').filter({ hasText: '10' }).first();
   const SerialNumberField = frame.locator('[id="cpdsp2100m000-grid-n1-cpdsp200.sern-n7-n0-widget"]');
   const SaveButton = frame.locator('[id="cpdsp2100m000-button-std-file.save"] > .SvgIconDiv > .icon');
 
@@ -109,13 +110,20 @@ test('Prognose Erstellung', async ({ page }) => {
 
   await test.step(" STEP 4 Auf das hinzufügen button klicken und dann in der Zeile die + 20 eingeben und dann auf Tab klicken dann auf das Zeit Feld Tab klicken dann auf Seriennummern Feld Tab klicken und dann auf das Speichern Button klicken", async () => {
     await AddButton.click();
-    await QuantityField.click();
+
+    await expect(DemandDateField).toHaveValue(/\d{1,2}[./]\d{1,2}[./]\d{4}/); // Datum automatisch gesetzt
+
+    await DemandDateField.click();
     await page.keyboard.type('+20');
-    await QuantityField.press('Tab');
+    await DemandDateField.press('Tab');
+
+    await expect(DemandDateField).toHaveValue(/\d{1,2}[./]\d{1,2}[./]\d{4}/); // Datum wurde berechnet
+
     await TimeField.press('Tab');
     await SerialNumberField.press('Tab');
     await SaveButton.click();
 
+    await expect(SequenceNumber10).toBeVisible(); // überprüuft, ob die Zeile mit der Seriennummer automatisch die "10" enthältlt und sichtbar ist
     await expect(ItemOrderPlanLabel).toBeVisible(); // überprüft, ob das Item Order Plan Label sichtbar ist
   });
 
