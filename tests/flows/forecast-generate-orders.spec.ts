@@ -8,8 +8,8 @@ test('Prognose Erstellung', async ({ page }) => {
 
   const sysmedialogButton = frame.locator('#sysmesdialog-button-n0');
 
-  const PlanningDropdown = frame.getByText('Planning');
-  const OrderPlanning = frame.getByText('Order Planning');
+  const PlanningDropdown = frame.getByText('Planning', { exact: true });
+  const OrderPlanning = frame.getByText('Order Planning', { exact: true });
   const SpecialDemandByItem = frame.locator('#node-cpdsp2100m000-label');
 
   const NewViewButton = frame.locator('[id="cpdsp2100m000-button-std-group.new"] > .SvgIconDiv > .icon');
