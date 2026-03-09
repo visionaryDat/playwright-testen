@@ -138,7 +138,9 @@ test('Prognose Erstellung', async ({ page }) => {
     await ItemC10.click({ force: true });
     await SaveAndCloseButton.click();
 
-    await expect(PlanItem2Field2).toBeVisible(); // überprüft, ob das Plan Item 2 Feld sichtbar ist
+    await expect(ScenarioField2).toBeVisible(); // überprüft, ob man in Item Order Plan im Scenario Feld gelandet ist
+    await expect(ScenarioField2).toHaveValue('ACT'); // überprüft, ob im Scenario Feld automatisch "ACT" eingetragen wurde
+    
   });
 
 
