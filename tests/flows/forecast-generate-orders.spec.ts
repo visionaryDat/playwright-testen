@@ -6,7 +6,7 @@ test('Prognose Erstellung', async ({ page }) => {
   const URLInfor = 'http://10.218.90.14:8312/webui/servlet/standalone';
   const frame = page.locator('iframe').nth(1).contentFrame();
 
-  //const sysmedialogButton = frame.locator('#sysmesdialog-button-n0');
+  const sysmedialogButton = frame.locator('#sysmesdialog-button-n0');
 
   const PlanningDropdown = frame.getByText('Planning');
   const OrderPlanning = frame.getByText('Order Planning');
@@ -59,6 +59,14 @@ test('Prognose Erstellung', async ({ page }) => {
     await page.goto(URLInfor);
   });
 
+
+
+  await test.step("Systemmeldung schließen", async () => {
+    await sysmedialogButton.click();
+  });
+
+
+  
 
   await test.step(" STEP 1 Planning Dropdown öffnen und Order Planning auswählen und dann auf das Special Demand by Item klicken", async () => {
     await PlanningDropdown.click();
@@ -183,7 +191,7 @@ test('Prognose Erstellung', async ({ page }) => {
   });
 
 
-    
+
 
   
 
