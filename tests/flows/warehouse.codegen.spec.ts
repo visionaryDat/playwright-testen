@@ -2,75 +2,55 @@ import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
   await page.goto('http://10.218.90.14:8312/webui/servlet/standalone');
-   // Open Session and close Systemmeldung
-  //await page.locator('iframe').nth(1).contentFrame().locator('#sysmesdialog-button-n0').click();
+  // Open Session and close Systemmeldung
+  await page.locator('iframe').nth(1).contentFrame().locator('#sysmesdialog-button-n0').click();
 
-  // Planning Dropdown öffnen und Order Planning auswählen und dann auf das Special Demand by Item klicken
-  await page.locator('iframe').nth(1).contentFrame().getByText('Planning').click();
-  await page.locator('iframe').nth(1).contentFrame().getByText('Order Planning').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#node-cpdsp2100m000-label').click();
+  // Options Dropdown öffnen und dann auf Programm ausführen klicken dann tdsls4601m200 in das Feld tippen und dann auf OK Button klicken
+  await page.locator('iframe').nth(1).contentFrame().getByText(/^(Optionen|Options)$/).click();
+  await page.locator('iframe').nth(1).contentFrame().getByText(/^(Programm ausfuhren|Programm ausführen|Run Program)$/).click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#dlg-run_program-input-control-widget').click();
+  await page.locator('iframe').nth(1).contentFrame().getByRole('textbox', { name: 'search' }).fill('tdsls4601m200');
+  await page.locator('iframe').nth(1).contentFrame().locator('#dlg-run_program-button-n0').click();
 
-  // Neue Ansicht Button klicken 
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-button-std-group.new"] > .SvgIconDiv > .icon').click();
-  
-  // Dann durch Scenario Tappen dann durch plan Item tappen dann von dort aus 2 x tappen man landet auf M2100 und dort dann auf Tab tappen 
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-cpdsp200.plnc-n1-lookup-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().getByRole('cell', { name: 'C10', exact: true }).getByRole('textbox').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().getByRole('textbox').nth(3).press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().getByRole('cell', { name: 'M2100', exact: true }).getByRole('textbox').press('Tab');
+  // Sales Order button klicken (dann landet man auf der Sales Order Seite)
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4601m200-button-std-file.new"] > .SvgIconDiv > .icon').click();
 
-  // Auf das hinzufügen button klicken und dann in der Zeile die + 20 eingeben und dann auf Tab klicken dann auf das Zeit Feld Tab klicken dann auf Seriennummern Feld Tab klicken und dann auf das Speichern Button klicken
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-button-std-file.new"] > .SvgIconDiv > .icon').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt-n6-n0-widget-widget"]').click();
-  await page.keyboard.type('+20');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt-n6-n0-widget-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-grid-n1-cpdsp200.spdt.time-n6-n0-widget-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-grid-n1-cpdsp200.sern-n7-n0-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cpdsp2100m000-button-std-file.save"] > .SvgIconDiv > .icon').click();
+  // Business Partner Feld Lupe klicken dann ein Sold to Business Partner auswählen (zb 1003) dann auf OK Button klicken
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofbp-n1-lookup-trigger-button"] > .SvgIconDiv > .icon').click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('#tccom4510m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tccom4510m000-button-std-file.save_and_close"]').click();
 
-  // Klickt auf das Item Order Plan Label dann auf das Scenario Feld klicken von dort aus Tab dann landet man auf Plan Item dann auf Lupe klicken dann auf das Item C10 klicken und dann auf OK Button klicken
-  await page.locator('iframe').nth(1).contentFrame().locator('#node-cprrp0520m000-label').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-plnc.f-n2-lookup-widget"]').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-plnc.f-n2-lookup-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-item.f.segment.1-n4-lookup-trigger-button"] > .SvgIconDiv > .icon').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#tcemm1135m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="tcemm1135m000-button-std-file.save_and_close"]').click();
+  // Dann von Business Partner Feld 2 x Tabben es erscheint Adress und dann Postal Code dann nochmal 2 x Tappen dann landet man auf der Order Type Feld dann auf die Lupe klicken dann einen SalesOrder Type auswählen (zb. C10) dann auf OK Button klicken 
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tccom4510m000-button-std-file.save_and_close"]').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofbp-n1-lookup-trigger-button"] > .SvgIconDiv > .icon').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#tccom4510m000-grid-n1-select-n0 #icon-checkbox-ln').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tccom4510m000-button-std-file.save_and_close"]').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofbp-n1-lookup-widget"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofad-n3-lookup-widget"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-address.tdsls400.ofad"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofcn-n7-lookup-widget"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().getByRole('row', { name: 'Customer Order:', exact: true }).getByRole('textbox').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-trigger-button"] > .SvgIconDiv > .icon').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#tdsls0594m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls0594m000-button-std-file.save_and_close"]').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#tdsls0594m000').waitFor({ state: 'hidden' });
 
-  
-  // Dann von Plan Item 2 x Tappen dann landet man in das Feld M2100 wählt dann das aus klickt auf Ok button und dann ist man wieder zurück (dritte Feld von Plan Item)
-  await page.locator('iframe').nth(1).contentFrame().getByRole('textbox').nth(2).press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().getByRole('textbox').nth(3).press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-item.f.segment.3-n4-lookup-trigger-button"] > .SvgIconDiv > .icon').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#cprpd1100m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxCheckmark').click({ force: true });
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprpd1100m000-button-std-file.save_and_close"]').click();
+  // Dann von Order Type Feld einmal Tabben dann landet man auf Sales Office dann klickt man auf die Lupe dann wählt ein Sales Office aus (zb SO1000) dann auf OK Button klicken und dann von dort aus nochmal Tabben dann landet man auf Number Feld und in Number Feld erscheint SOR 
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-widget"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon').click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls0512m000-grid-n1-select-n"] #icon-checkbox-ln').first().click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls0512m000-button-std-file.save_and_close"]').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-widget"]').press('Tab');
 
 
-  // Dann von dort aus Tab dann auf Period Lengtgh Feld drücken dann auf Plan Periods klicken dann auf Hide Empyty Periods klicken und dann auf Ok button klicken
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-item.f.segment.3-n4-lookup-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-perl.f-n11-control-widget"]').click();
-  await page.locator('iframe').nth(1).contentFrame().getByText('Plan Periods').first().click({ timeout: 3000 }).catch(() => {});
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-skip.empty.days-n14"] > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp0521s000-button-std-file.save_and_close"]').click(); 
-  
-
-  // Jetzt auf das Prognose Kätschen markieren und dann Generate Orders klicken.
-  await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxBorderOutside').click({ force: true });
-  await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-toolbar-left-REGULAR-overflowButton > .SvgIconDiv > .icon').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#cprrp0520m000-button-form-cprrp1220m000').click();
-
-
-  // Klicke auf Update Pegging Relations Kätschen (Update Resource Masterplan ist schon angeklickt) und dann auf Generate Button klicken dann auf Yes klicken
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp1220m000-f.generate.peg-n17"] > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="cprrp1220m000-button-form-exec.cont.process"]').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#dlg-cprrp1220m000-input-button-n0').click();
-
-  
-  // Im nächsten Screen in das Devicedc Feld d eingeben und dann auf Tab drücken und dann auf Continue Button klicken. Es erscheint ein PDF Datei
-  await page.locator('iframe').nth(1).contentFrame().locator('#ttstpsplopen-devc-n1-lookup-widget').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#ttstpsplopen-devc-n1-lookup-widget').fill('d');
-  await page.locator('iframe').nth(1).contentFrame().locator('#ttstpsplopen-devc-n1-lookup-widget').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="ttstpsplopen-button-form-exec.cont.process"]').click();
-  
-
-
+  // Dann klickt man auf Order Line button es erscheint erstmal eine Feld Sales Order : tcgens0068 dann klickt man auf OK. Als nächstes erscheint in Line ein Feld und dann schreibt man eine 1 rein dann 2x Tabben man landet auf Item Feld dann auf die Lupe klicken dann ein Item auswählen (zb. C1000) dann auf OK Button klickeen. Am ende klickt man auf das Speichern Button. Es erscheint leider eine Fehlermeldung mit Tax code field
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-button-std-file.new"]').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#dlg-tdsls4100m900-input-button-n0').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls4101m000-grid-n1-tdsls401.pono-"][id$="-n0-widget"]').fill('1');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls4101m000-grid-n1-tdsls401.pono-"][id$="-n0-widget"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-grid-n1-tdsls401.item.segment.1-n422-n0-widget"]').press('Tab');
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-grid-n1-tdsls401.item.segment.2-n422-n0-trigger-button"] > .SvgIconDiv > .icon').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#tdisa0501m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxPartial').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdisa0501m000-button-std-file.save_and_close"]').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-button-std-file.save"] > .SvgIconDiv > .icon > use').click();
 });
