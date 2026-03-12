@@ -71,6 +71,8 @@ test('Sales Order Erstellung', async ({ page }) => {
     await programInput.click();
     await programSearchBox.fill('tdsls4601m200');
     await programOkButton.click();
+
+    await expect(salesOrderButton).toBeVisible();
   });
 
 
