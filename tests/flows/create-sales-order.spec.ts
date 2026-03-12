@@ -31,6 +31,7 @@ test('Sales Order Erstellung', async ({ page }) => {
   const orderTypeSelectCheckbox = frame.locator('#tdsls0594m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside');
   const orderTypeSaveAndCloseButton = frame.locator('[id="tdsls0594m000-button-std-file.save_and_close"]');
   const orderTypeHidden = frame.locator('#tdsls0594m000');
+  const orderTypeDescription = frame.getByText('Cost Order');
   
   const orderTypeTab2 = frame.locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-widget"]');
   const salesOfficeLookupButton = frame.locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon');
@@ -92,6 +93,9 @@ test('Sales Order Erstellung', async ({ page }) => {
     await businessPartnerLookupButton.click();
     await businessPartnerSelectCheckbox.click({ force: true });
     await businessPartnerSaveAndCloseButton.click();
+
+    await expect(businessPartnerTab).toHaveValue(/1003/);
+    await expect(addressTab).toBeVisible();
   });
 
 
@@ -108,6 +112,11 @@ test('Sales Order Erstellung', async ({ page }) => {
     await orderTypeSelectCheckbox.click({ force: true });
     await orderTypeSaveAndCloseButton.click();
     await orderTypeHidden.waitFor({ state: 'hidden' });
+
+    await expect(orderTypeLookupButton).toBeVisible();
+    await expect(orderTypeTab2).toHaveValue(/C10/);
+    await expect(orderTypeDescription).toContainText('Cost Order');
+
   });
 
 
@@ -125,6 +134,12 @@ test('Sales Order Erstellung', async ({ page }) => {
     await salesOfficeSaveAndCloseButton.click({ force: true });
     await salesOfficeLookupDialog.waitFor({ state: 'hidden' });
     await salesOfficeTab.press('Tab');
+
+    
+    
+    await expect(salesOfficeLookupButton).toBeVisible();
+    await expect(salesOfficeTab).toHaveValue(/SO1000/);
+    
   });
 
 
