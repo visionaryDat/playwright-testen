@@ -24,13 +24,13 @@ test('Sales Order Erstellung', async ({ page }) => {
   const businessPartnerTab = frame.locator('[id="tdsls4100m900-tdsls400.ofbp-n1-lookup-widget"]');
   const addressTab = frame.locator('[id="tdsls4100m900-tdsls400.ofad-n3-lookup-widget"]');
   const addressTab2 = frame.locator('[id="tdsls4100m900-address.tdsls400.ofad"]');
-  const postalCodeTab = frame.locator('[id="tdsls4100m900-address.tdsls400.ofad"]');
+  const postalCodeTab = frame.locator('[id="tdsls4100m900-tdsls400.ofcn-n7-lookup-widget"]');
   const orderTypeTab = frame.getByRole('row', { name: 'Customer Order:', exact: true }).getByRole('textbox');
   
   const orderTypeLookupButton = frame.locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-trigger-button"] > .SvgIconDiv > .icon');
   const orderTypeSelectCheckbox = frame.locator('#tdsls0594m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside');
   const orderTypeSaveAndCloseButton = frame.locator('[id="tdsls0594m000-button-std-file.save_and_close"]');
-  const ordeerTypeHidden = frame.locator('#tdsls0594m000');
+  const orderTypeHidden = frame.locator('#tdsls0594m000');
   
   const orderTypeTab2 = frame.locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-widget"]');
   const salesOfficeLookupButton = frame.locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon');
@@ -103,7 +103,7 @@ test('Sales Order Erstellung', async ({ page }) => {
     await orderTypeLookupButton.click({ force: true });
     await orderTypeSelectCheckbox.click({ force: true });
     await orderTypeSaveAndCloseButton.click();
-    await ordeerTypeHidden.waitFor({ state: 'hidden' });
+    await orderTypeHidden.waitFor({ state: 'hidden' });
   });
 
 
