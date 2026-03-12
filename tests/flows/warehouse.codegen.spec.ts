@@ -46,7 +46,7 @@ test('test', async ({ page }) => {
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-widget"]').press('Tab');
 
 
-  // Dann klickt man auf Order Line button es erscheint erstmal eine Feld Sales Order : tcgens0068 dann klickt man auf OK. Als nächstes erscheint in Line ein Feld und dann schreibt man eine 1 rein dann 2x Tabben man landet auf Item Feld dann auf die Lupe klicken dann ein Item auswählen (zb. C1000) dann auf OK Button klickeen. Am ende klickt man auf das Speichern Button. Es erscheint leider eine Fehlermeldung mit Tax code field
+  // Dann klickt man auf Order Line button es erscheint erstmal eine Feld Sales Order : tcgens0068 dann klickt man auf OK. Als nächstes erscheint in Line ein Feld und dann schreibt man eine 1 rein dann 2x Tabben man landet auf Item Feld dann auf die Lupe klicken dann ein Item auswählen (zb. C1000) dann auf OK Button klicken. Am Ende klickt man auf das Speichern Button. Es erscheint leider eine Fehlermeldung mit Tax code field
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-button-std-file.new"]').click();
   await page.locator('iframe').nth(1).contentFrame().locator('#dlg-tdsls4100m900-input-button-n0').click();
   await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls4101m000-grid-n1-tdsls401.pono-"][id$="-n0-widget"]').fill('1');
