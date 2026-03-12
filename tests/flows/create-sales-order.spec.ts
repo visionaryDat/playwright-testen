@@ -80,6 +80,8 @@ test('Sales Order Erstellung', async ({ page }) => {
 
   await test.step(" STEP 2 Sales Order button klicken (dann landet man auf der Sales Order Seite)", async () => {
     await salesOrderButton.click();
+
+    await expect(businessPartnerLookupButton).toBeVisible();
   });
 
 
