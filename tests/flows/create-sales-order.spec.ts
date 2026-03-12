@@ -34,6 +34,7 @@ test('Sales Order Erstellung', async ({ page }) => {
   
   const orderTypeTab2 = frame.locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-widget"]');
   const salesOfficeLookupButton = frame.locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon');
+  const salesOfficeLookupDialog = frame.locator('#tdsls0512m000');
   const salesOfficeSelectCheckbox = frame.locator('[id^="tdsls0512m000-grid-n1-select-n"]').first();
   const salesOfficeSaveAndCloseButton = frame.locator('[id="tdsls0512m000-button-std-file.save_and_close"]');
   const salesOfficeTab = frame.locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-widget"]');
@@ -114,12 +115,11 @@ test('Sales Order Erstellung', async ({ page }) => {
   await test.step(" STEP 5 Dann von Order Type Feld einmal Tabben dann landet man auf Sales Office dann klickt man auf die Lupe dann wählt ein Sales Office aus (zb SO1000) dann auf OK Button klicken und dann von dort aus nochmal Tabben dann landet man auf Number Feld und in Number Feld erscheint SOR ", async () => {
     await orderTypeTab2.press('Tab');
     await salesOfficeLookupButton.click({ force: true });
-    await salesOfficeSelectCheckbox.click({ force: true, timeout: 5000 }).catch(async () => {
-      await salesOfficeLookupButton.click({ force: true });
-      await salesOfficeSelectCheckbox.click({ force: true });
-    });
-
-    await salesOfficeSaveAndCloseButton.click();
+    await salesOfficeLookupDialog.waitFor({ state: 'visible' });
+    await salesOfficeSelectCheckbox.waitFor({ state: 'visible', timeout: 15000 });
+    await salesOfficeSelectCheckbox.click({ force: true });
+    await salesOfficeSaveAndCloseButton.click({ force: true });
+    await salesOfficeLookupDialog.waitFor({ state: 'hidden' });
     await salesOfficeTab.press('Tab');
   });
 
