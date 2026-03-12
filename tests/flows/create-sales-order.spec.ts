@@ -46,11 +46,112 @@ test('Sales Order Erstellung', async ({ page }) => {
   const itemSelectCheckbox = frame.locator('#tdisa0501m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxPartial');
   const itemSaveAndCloseButton = frame.locator('[id="tdisa0501m000-button-std-file.save_and_close"]');
   const itemLookupHidden = frame.locator('#tdisa0501m000');
-  const orderSaveButton = frame.locator('[id="tdsls4100 m900-button-std-file.save"] > .SvgIconDiv > .icon');  
+  const orderSaveButton = frame.locator('[id="tdsls4100m900-button-std-file.save"] > .SvgIconDiv > .icon');
+
+
+
+
+
+  // Test Steps 
+  await test.step("Anmelden", async () => {
+    await page.goto(urlInfor);
+  });
+
+
+
+  await test.step("Systemmeldung schließen", async () => {
+    await systemmeldungButton.click();
+  });
+
+
+  await test.step(" STEP 1 Optionen Dropdown öffnen und dann auf Programm ausführen klicken dann tdsls4601m200 in das Feld tippen und dann auf OK Button klicken", async () => {
+    await optionsDropdown.click();
+    await runProgramOption.click();
+    await programInput.click();
+    await programSearchBox.fill('tdsls4601m200');
+    await programOkButton.click();
+  });
+
+
+
+
+  await test.step(" STEP 2 Sales Order button klicken (dann landet man auf der Sales Order Seite)", async () => {
+    await salesOrderButton.click();
+  });
+
 
   
 
   
+  await test.step(" STEP 3 Business Partner Feld Lupe klicken dann ein Sold to Business Partner auswählen (zb 1003) dann auf OK Button klicken", async () => {
+    await businessPartnerLookupButton.click();
+    await businessPartnerSelectCheckbox.click({ force: true });
+    await businessPartnerSaveAndCloseButton.click();
+  });
+
+
+  
+
+
+  await test.step(" STEP 4 Dann von Business Partner Feld 2 x Tabben es erscheint Adress und dann Postal Code dann nochmal 3 x Tappen dann landet man auf der Order Type Feld dann auf die Lupe klicken dann einen Sales Order Type auswählen (zb. C10) dann auf OK Button klicken ", async () => { 
+    await businessPartnerTab.press('Tab');
+    await addressTab.press('Tab');
+    await addressTab2.press('Tab');
+    await postalCodeTab.press('Tab');
+    await orderTypeTab.press('Tab');
+    await orderTypeLookupButton.click({ force: true });
+    await orderTypeSelectCheckbox.click({ force: true });
+    await orderTypeSaveAndCloseButton.click();
+    await ordeerTypeHidden.waitFor({ state: 'hidden' });
+  });
+
+
+
+
+
+
+
+  await test.step(" STEP 5 Dann von Order Type Feld einmal Tabben dann landet man auf Sales Office dann klickt man auf die Lupe dann wählt ein Sales Office aus (zb SO1000) dann auf OK Button klicken und dann von dort aus nochmal Tabben dann landet man auf Number Feld und in Number Feld erscheint SOR ", async () => {
+    await orderTypeTab2.press('Tab');
+    await salesOfficeLookupButton.click({ force: true });
+    await salesOfficeSelectCheckbox.click({ force: true, timeout: 5000 }).catch(async () => {
+      await salesOfficeLookupButton.click({ force: true });
+      await salesOfficeSelectCheckbox.click({ force: true });
+    });
+
+    await salesOfficeSaveAndCloseButton.click();
+    await salesOfficeTab.press('Tab');
+  });
+
+
+
+
+
+  await test.step(" STEP 6 Dann klickt man auf Order Line button es erscheint erstmal eine Feld Sales Order : tcgens0068 dann klickt man auf OK. Als nächstes erscheint in Line ein Feld und dann schreibt man eine 1 rein dann 2x Tabben man landet auf Item Feld dann auf die Lupe klicken dann ein Item auswählen (zb. C1000) dann auf OK Button klicken. Am Ende klickt man auf das Speichern Button. Es erscheint leider eine Fehlermeldung mit Tax code field", async () => {
+    await orderLineButton.click();
+    await orderLineSalesOrderOkButton.click();
+    await orderLinePonoField.fill('1');
+    await orderLinePonoField.press('Tab');
+    await orderLineItemSegment1Field.press('Tab');
+    await orderLineItemSegment2LookupButton.click({ force: true });
+    await itemSelectCheckbox.click();
+    await itemSaveAndCloseButton.click();
+    await itemLookupHidden.waitFor({ state: 'hidden' });
+    await orderSaveButton.click({ force: true });
+  });
+  
+  
+
+
+
+  
+
+
+
+
+  
+
+
 
 
 
