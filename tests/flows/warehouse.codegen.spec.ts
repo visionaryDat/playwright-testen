@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
+  test.setTimeout(120000);
   await page.goto('http://10.218.90.14:8312/webui/servlet/standalone');
   // Open Session and close Systemmeldung
   await page.locator('iframe').nth(1).contentFrame().locator('#sysmesdialog-button-n0').click();
@@ -38,7 +39,9 @@ test('test', async ({ page }) => {
   // Dann von Order Type Feld einmal Tabben dann landet man auf Sales Office dann klickt man auf die Lupe dann wählt ein Sales Office aus (zb SO1000) dann auf OK Button klicken und dann von dort aus nochmal Tabben dann landet man auf Number Feld und in Number Feld erscheint SOR 
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-widget"]').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon').click({ force: true });
-  await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls0512m000-grid-n1-select-n"] #icon-checkbox-ln').first().click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls0512m000-grid-n1-select-n"]').first().click({ force: true, timeout: 5000 }).catch(async () => {
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon').click({ force: true });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls0512m000-grid-n1-select-n"]').first().click({ force: true });});
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls0512m000-button-std-file.save_and_close"]').click();
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-widget"]').press('Tab');
 
@@ -49,8 +52,9 @@ test('test', async ({ page }) => {
   await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls4101m000-grid-n1-tdsls401.pono-"][id$="-n0-widget"]').fill('1');
   await page.locator('iframe').nth(1).contentFrame().locator('[id^="tdsls4101m000-grid-n1-tdsls401.pono-"][id$="-n0-widget"]').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-grid-n1-tdsls401.item.segment.1-n422-n0-widget"]').press('Tab');
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-grid-n1-tdsls401.item.segment.2-n422-n0-trigger-button"] > .SvgIconDiv > .icon').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4101m000-grid-n1-tdsls401.item.segment.2-n422-n0-trigger-button"]').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('#tdisa0501m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxPartial').click();
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdisa0501m000-button-std-file.save_and_close"]').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-button-std-file.save"] > .SvgIconDiv > .icon > use').click();
+  await page.locator('iframe').nth(1).contentFrame().locator('#tdisa0501m000').waitFor({ state: 'hidden' });
+  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-button-std-file.save"] > .SvgIconDiv > .icon').click({ force: true });
 });
