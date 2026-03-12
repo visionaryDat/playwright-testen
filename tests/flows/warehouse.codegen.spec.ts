@@ -21,16 +21,13 @@ test('test', async ({ page }) => {
   await page.locator('iframe').nth(1).contentFrame().locator('#tccom4510m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tccom4510m000-button-std-file.save_and_close"]').click();
 
-  // Dann von Business Partner Feld 2 x Tabben es erscheint Adress und dann Postal Code dann nochmal 2 x Tappen dann landet man auf der Order Type Feld dann auf die Lupe klicken dann einen SalesOrder Type auswählen (zb. C10) dann auf OK Button klicken 
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="tccom4510m000-button-std-file.save_and_close"]').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofbp-n1-lookup-trigger-button"] > .SvgIconDiv > .icon').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('#tccom4510m000-grid-n1-select-n0 #icon-checkbox-ln').click();
-  await page.locator('iframe').nth(1).contentFrame().locator('[id="tccom4510m000-button-std-file.save_and_close"]').click();
+  // Dann von Business Partner Feld 2 x Tabben es erscheint Adress und dann Postal Code dann nochmal 3 x Tappen dann landet man auf der Order Type Feld dann auf die Lupe klicken dann einen Sales Order Type auswählen (zb. C10) dann auf OK Button klicken 
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofbp-n1-lookup-widget"]').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofad-n3-lookup-widget"]').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-address.tdsls400.ofad"]').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.ofcn-n7-lookup-widget"]').press('Tab');
   await page.locator('iframe').nth(1).contentFrame().getByRole('row', { name: 'Customer Order:', exact: true }).getByRole('textbox').press('Tab');
+  
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-trigger-button"] > .SvgIconDiv > .icon').click();
   await page.locator('iframe').nth(1).contentFrame().locator('#tdsls0594m000-grid-n1-select-n0 > .SvgIconDiv > #icon-checkbox-ln > .SvgCheckboxInside').click({ force: true });
   await page.locator('iframe').nth(1).contentFrame().locator('[id="tdsls0594m000-button-std-file.save_and_close"]').click();
