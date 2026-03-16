@@ -157,6 +157,14 @@ test('Sales Order Erstellung', async ({ page }) => {
     await itemSaveAndCloseButton.click();
     await itemLookupHidden.waitFor({ state: 'hidden' });
     await orderSaveButton.click({ force: true });
+
+    await expect(orderLinePonoField).toBeVisible();
+    await expect(orderLinePonoField).toContainText(/1/);
+    
+    
+
+
+
   });
   
   
