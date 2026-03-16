@@ -35,6 +35,7 @@ test('Sales Order Erstellung', async ({ page }) => {
   
   const orderTypeTab2 = frame.locator('[id="tdsls4100m900-tdsls400.sotp-n11-lookup-widget"]');
   const salesOfficeLookupButton = frame.locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"]');
+  const salesOfficeLookupIcon = frame.locator('[id="tdsls4100m900-tdsls400.cofc-n13-lookup-trigger-button"] > .SvgIconDiv > .icon');
   const salesOfficeLookupDialog = frame.locator('#tdsls0512m000');
   const salesOfficeSelectCheckbox = frame.locator('[id^="tdsls0512m000-grid-n1-select-n"]').first();
   const salesOfficeSaveAndCloseButton = frame.locator('[id="tdsls0512m000-button-std-file.save_and_close"]');
@@ -129,35 +130,44 @@ test('Sales Order Erstellung', async ({ page }) => {
 
   await test.step(" STEP 5 Dann von Order Type Feld einmal Tabben dann landet man auf Sales Office dann klickt man auf die Lupe dann wählt ein Sales Office aus (zb SO1000) dann auf OK Button klicken und dann von dort aus nochmal Tabben dann landet man auf Number Feld und in Number Feld erscheint SOR ", async () => {
     await orderTypeTab2.press('Tab');
-    await salesOfficeLookupButton.click({ force: true });
-    const salesOfficeLookupOpened = await salesOfficeSelectCheckbox.waitFor({ state: 'visible', timeout: 7000 }).then(() => true).catch(async () => {
+    await expect(salesOfficeTab).toBeEditable({ timeout: 15000 });
+    await salesOfficeTab.click({ force: true });
+
+    let salesOfficeLookupOpened = false;
+    for (let attempt = 0; attempt < 3 && !salesOfficeLookupOpened; attempt++) {
       await salesOfficeLookupButton.click({ force: true });
-      return salesOfficeSelectCheckbox.waitFor({ state: 'visible', timeout: 10000 }).then(() => true).catch(async () => {
+      salesOfficeLookupOpened = await salesOfficeLookupDialog.waitFor({ state: 'visible', timeout: 4000 }).then(() => true).catch(async () => false);
+
+      if (!salesOfficeLookupOpened) {
+        await salesOfficeLookupIcon.click({ force: true }).catch(async () => {});
+        salesOfficeLookupOpened = await salesOfficeLookupDialog.waitFor({ state: 'visible', timeout: 4000 }).then(() => true).catch(async () => false);
+      }
+
+      if (!salesOfficeLookupOpened) {
         await salesOfficeTab.click({ force: true });
-        await page.keyboard.press('Meta+A');
-        await page.keyboard.type('SO1000');
-        await salesOfficeTab.press('Tab');
-        return false;
-      });
-    });
+        await salesOfficeTab.press('F4').catch(async () => {});
+        salesOfficeLookupOpened = await salesOfficeLookupDialog.waitFor({ state: 'visible', timeout: 4000 }).then(() => true).catch(async () => false);
+      }
 
-    if (salesOfficeLookupOpened) {
-      await salesOfficeSelectCheckbox.click({ force: true });
-      await salesOfficeSaveAndCloseButton.click({ force: true });
-      await salesOfficeLookupDialog.waitFor({ state: 'hidden', timeout: 10000 }).catch(async () => {});
-      await salesOfficeTab.press('Tab');
+      if (!salesOfficeLookupOpened) {
+        await page.waitForTimeout(400);
+      }
     }
 
-    const salesOfficeValue = await salesOfficeTab.inputValue().catch(async () => '');
-    if (!salesOfficeValue.trim()) {
-      await salesOfficeTab.fill('SO1000');
-      await salesOfficeTab.press('Tab');
+    if (!salesOfficeLookupOpened) {
+      throw new Error('Sales Office lookup did not open after retries');
     }
+
+    await salesOfficeSelectCheckbox.waitFor({ state: 'visible', timeout: 15000 });
+    await salesOfficeSelectCheckbox.click({ force: true });
+    await salesOfficeSaveAndCloseButton.click({ force: true });
+    await salesOfficeLookupDialog.waitFor({ state: 'hidden', timeout: 10000 });
+    await salesOfficeTab.press('Tab');
 
     
     
     await expect(salesOfficeLookupButton).toBeVisible();
-    await expect(salesOfficeTab).toHaveValue(/SO1000/);
+    await expect(salesOfficeTab).toHaveValue(/SO1000/, { timeout: 15000 });
     
   });
 
